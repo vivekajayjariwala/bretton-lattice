@@ -64,20 +64,33 @@ export function MobileNav() {
           <Menu className="size-5" />
         </SheetTrigger>
 
-        <SheetContent side="left" className="w-[280px] p-0">
+        <SheetContent
+          side="left"
+          className="flex w-[280px] flex-col gap-0 p-0"
+          // The sheet ships data-[side=left]:h-full. On iOS a fixed element's
+          // 100% resolves against the small viewport, so with Safari's collapsed
+          // toolbar the panel stopped short of the visible bottom. 100dvh tracks
+          // the viewport as the chrome expands and collapses; setting it inline
+          // beats the variant class, which out-specifies a utility.
+          style={{ height: "100dvh" }}
+        >
           <SheetTitle className="sr-only">Navigation</SheetTitle>
           <SheetDescription className="sr-only">
             Links to each section of Bretton Lattice.
           </SheetDescription>
 
-          <div className="flex h-14 items-center gap-2.5 border-b border-hairline px-5">
+          <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-hairline px-5">
             <LatticeMark className="size-6 shrink-0 text-brand" />
             <span className="text-[16px] font-semibold tracking-[-0.01em]">
               Bretton Lattice
             </span>
           </div>
 
-          <nav className="flex h-[calc(100%-3.5rem)] flex-col overflow-y-auto px-3 pb-4">
+          <nav
+            className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3"
+            // Keep the last link clear of the home indicator.
+            style={{ paddingBottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+          >
             <p className="px-3 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
               Cross-case layer
             </p>
