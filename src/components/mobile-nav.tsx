@@ -55,7 +55,17 @@ export function MobileNav() {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-sidebar-border bg-sidebar px-4 md:hidden">
+    <header
+      className="sticky top-0 z-40 flex min-h-14 shrink-0 items-center gap-3 border-b border-sidebar-border bg-sidebar px-4 md:hidden"
+      // Under viewport-fit=cover this bar starts at the physical top edge, so
+      // it has to clear the status bar itself. The side insets are non-zero
+      // only in landscape.
+      style={{
+        paddingTop: "env(safe-area-inset-top)",
+        paddingLeft: "max(1rem, env(safe-area-inset-left))",
+        paddingRight: "max(1rem, env(safe-area-inset-right))",
+      }}
+    >
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           aria-label="Open navigation"
@@ -79,7 +89,12 @@ export function MobileNav() {
             Links to each section of Bretton Lattice.
           </SheetDescription>
 
-          <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-hairline px-5">
+          <div
+            className="flex min-h-14 shrink-0 items-center gap-2.5 border-b border-hairline px-5"
+            // The panel spans the full screen height, so its own header sits
+            // under the status bar without this.
+            style={{ paddingTop: "env(safe-area-inset-top)" }}
+          >
             <LatticeMark className="size-6 shrink-0 text-brand" />
             <span className="text-[16px] font-semibold tracking-[-0.01em]">
               Bretton Lattice
