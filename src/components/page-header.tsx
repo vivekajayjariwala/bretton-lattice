@@ -19,7 +19,7 @@ export function PageHeader({
   meta?: React.ReactNode;
 }) {
   return (
-    <header className="border-b border-hairline bg-band px-8 pb-6 pt-7">
+    <header className="border-b border-hairline bg-band px-4 pb-5 pt-6 sm:px-8 sm:pb-6 sm:pt-7">
       {crumbs && crumbs.length > 0 && (
         <nav className="mb-3 flex items-center gap-1.5 text-[13px] text-muted-foreground">
           {crumbs.map((c, i) => (
@@ -42,17 +42,17 @@ export function PageHeader({
           {icon}
           {/* Generated network names run long; wrap rather than truncate so the
               headline stays readable. */}
-          <h1 className="min-w-0 text-[30px] font-semibold leading-tight tracking-[-0.02em] text-balance">
+          <h1 className="min-w-0 text-[22px] font-semibold leading-tight tracking-[-0.02em] text-balance sm:text-[30px]">
             {title}
           </h1>
           {pill}
         </div>
         {actions && (
-          <div className="ml-auto flex items-center gap-2">{actions}</div>
+          <div className="flex items-center gap-2 sm:ml-auto">{actions}</div>
         )}
       </div>
 
-      {meta && <div className="mt-6">{meta}</div>}
+      {meta && <div className="mt-5 sm:mt-6">{meta}</div>}
     </header>
   );
 }

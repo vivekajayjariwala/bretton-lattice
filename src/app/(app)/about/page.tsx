@@ -25,7 +25,7 @@ export default function AboutPage() {
         }
       />
 
-      <div className="flex-1 px-8 py-8">
+      <div className="flex-1 px-4 py-6 sm:px-8 sm:py-8">
         <div className="mx-auto max-w-3xl space-y-6">
           <Section title="What it is">
             <p>
@@ -143,7 +143,7 @@ export default function AboutPage() {
             </p>
           </Section>
 
-          <div className="rounded-xl border border-hairline bg-band px-6 py-5">
+          <div className="rounded-xl border border-hairline bg-band px-5 py-5 sm:px-6">
             <p className="text-[14px] leading-relaxed text-muted-foreground">
               Every business, person, address and phone number in this demo is
               synthetic and fictional. Nothing here reflects a real customer or
@@ -164,7 +164,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-border bg-card p-7">
+    <section className="rounded-xl border border-border bg-card p-5 sm:p-7">
       <h2 className="mb-4 text-[13px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
         {title}
       </h2>

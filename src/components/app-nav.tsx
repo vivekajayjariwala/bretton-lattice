@@ -3,26 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  FileText,
-  FolderClosed,
-  Info,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Share2,
-  Sparkles,
-} from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LatticeMark } from "@/components/lattice-mark";
-
-const NAV = [
-  { href: "/cases", label: "Cleared cases", icon: FolderClosed },
-  { href: "/analysis", label: "Run analysis", icon: Sparkles },
-  { href: "/networks", label: "Networks", icon: Share2 },
-  { href: "/briefs", label: "Risk briefs", icon: FileText },
-];
-
-const SECONDARY = [{ href: "/about", label: "About this project", icon: Info }];
+import { NAV, SECONDARY, isActive, type NavItem } from "@/components/nav-items";
 
 const STORAGE_KEY = "lattice:nav-collapsed";
 
@@ -43,16 +27,8 @@ export function AppNav() {
     });
   }
 
-  const renderItem = ({
-    href,
-    label,
-    icon: Icon,
-  }: {
-    href: string;
-    label: string;
-    icon: typeof Info;
-  }) => {
-    const active = pathname === href || pathname.startsWith(`${href}/`);
+  const renderItem = ({ href, label, icon: Icon }: NavItem) => {
+    const active = isActive(pathname, href);
     return (
       <li key={href}>
         <Link

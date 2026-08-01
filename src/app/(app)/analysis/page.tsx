@@ -37,11 +37,11 @@ export default async function AnalysisPage() {
         }
       />
 
-      <div className="flex-1 px-8 py-6">
+      <div className="flex-1 px-4 py-6 sm:px-8">
         <RunAnalysis hasRun={run?.status === "complete"} />
 
         {run?.status === "complete" && stats && (
-          <div className="mt-8 rounded-xl border border-border bg-card p-6">
+          <div className="mt-8 rounded-xl border border-border bg-card p-5 sm:p-6">
             <h2 className="text-[15px] font-semibold">Last completed run</h2>
             <dl className="mt-4 grid gap-x-10 gap-y-4 text-[14px] sm:grid-cols-2 lg:grid-cols-4">
               <Stat label="Started" value={formatDateTime(run.started_at)} />
@@ -80,7 +80,7 @@ export default async function AnalysisPage() {
         )}
 
         {run?.status === "failed" && (
-          <div className="mt-8 rounded-xl border border-danger/25 bg-danger-soft p-6">
+          <div className="mt-8 rounded-xl border border-danger/25 bg-danger-soft p-5 sm:p-6">
             <h2 className="text-[15px] font-semibold text-danger">
               Last run failed
             </h2>

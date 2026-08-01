@@ -292,7 +292,7 @@ export function NetworkGraph({
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       <div className="overflow-hidden rounded-xl border border-border bg-card">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-4 py-3.5 sm:px-5">
           <p className="text-[14px]">
             <strong className="font-semibold">
               {networks.length} hidden network
@@ -306,7 +306,7 @@ export function NetworkGraph({
           <Legend />
         </div>
 
-        <div ref={containerRef} className="h-[560px] w-full bg-[#fcfbf8]">
+        <div ref={containerRef} className="h-[400px] w-full bg-[#fcfbf8] sm:h-[560px]">
           {size.width > 0 && (
             <ForceGraph2D
               width={size.width}

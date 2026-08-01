@@ -1,0 +1,101 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { LatticeMark } from "@/components/lattice-mark";
+import { NAV, SECONDARY, isActive, type NavItem } from "@/components/nav-items";
+import { cn } from "@/lib/utils";
+
+/**
+ * The top bar and drawer that stand in for the sidebar below md. Without this
+ * there is no route to any page on a phone: the rail is display:none there.
+ */
+export function MobileNav() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  // A tap that navigates should also dismiss the drawer.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  const item = ({ href, label, icon: Icon }: NavItem) => {
+    const active = isActive(pathname, href);
+    return (
+      <li key={href}>
+        <Link
+          href={href}
+          className={cn(
+            "flex items-center gap-3 rounded-lg px-3 py-3 text-[15px] transition-colors",
+            active
+              ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+              : "text-foreground/80 active:bg-muted",
+          )}
+        >
+          <Icon
+            className={cn(
+              "size-[18px] shrink-0",
+              active ? "text-brand" : "text-brand/70",
+            )}
+            strokeWidth={1.75}
+          />
+          {label}
+        </Link>
+      </li>
+    );
+  };
+
+  return (
+    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-sidebar-border bg-sidebar px-4 md:hidden">
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger
+          aria-label="Open navigation"
+          className="-ml-2 rounded-md p-2 text-muted-foreground transition-colors active:bg-muted"
+        >
+          <Menu className="size-5" />
+        </SheetTrigger>
+
+        <SheetContent side="left" className="w-[280px] p-0">
+          <SheetTitle className="sr-only">Navigation</SheetTitle>
+          <SheetDescription className="sr-only">
+            Links to each section of Bretton Lattice.
+          </SheetDescription>
+
+          <div className="flex h-14 items-center gap-2.5 border-b border-hairline px-5">
+            <LatticeMark className="size-6 shrink-0 text-brand" />
+            <span className="text-[16px] font-semibold tracking-[-0.01em]">
+              Bretton Lattice
+            </span>
+          </div>
+
+          <nav className="flex h-[calc(100%-3.5rem)] flex-col overflow-y-auto px-3 pb-4">
+            <p className="px-3 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+              Cross-case layer
+            </p>
+            <ul className="space-y-0.5">{NAV.map(item)}</ul>
+
+            <ul className="mt-auto space-y-0.5 border-t border-hairline pt-3">
+              {SECONDARY.map(item)}
+            </ul>
+          </nav>
+        </SheetContent>
+      </Sheet>
+
+      <Link href="/cases" className="flex min-w-0 items-center gap-2">
+        <LatticeMark className="size-5 shrink-0 text-brand" />
+        <span className="truncate text-[15px] font-semibold tracking-[-0.01em]">
+          Bretton Lattice
+        </span>
+      </Link>
+    </header>
+  );
+}

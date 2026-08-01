@@ -105,7 +105,7 @@ export function RunAnalysis({ hasRun }: { hasRun: boolean }) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-border bg-card p-6">
+      <div className="rounded-xl border border-border bg-card p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-xl">
             <h2 className="text-[17px] font-semibold">Cross-case analysis</h2>
@@ -203,7 +203,7 @@ function StatsGrid({ stats }: { stats: PipelineStats }) {
     <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3 lg:grid-cols-6">
       {tiles.map((t) => (
         <div key={t.label} className="bg-card px-4 py-5">
-          <p className="tnum text-[26px] font-semibold leading-none">
+          <p className="tnum text-[22px] font-semibold leading-none sm:text-[26px]">
             {t.value}
           </p>
           <p className="mt-2 text-[12.5px] leading-tight text-muted-foreground">

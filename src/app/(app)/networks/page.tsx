@@ -66,7 +66,7 @@ export default async function NetworksPage() {
         }
       />
 
-      <div className="flex-1 px-8 py-6">
+      <div className="flex-1 px-4 py-6 sm:px-8">
         {connections.length === 0 ? (
           <EmptyState />
         ) : (
@@ -83,7 +83,7 @@ export default async function NetworksPage() {
 
 function EmptyState() {
   return (
-    <div className="rounded-xl border border-border bg-card px-6 py-20 text-center">
+    <div className="rounded-xl border border-border bg-card px-5 py-16 text-center sm:px-6 sm:py-20">
       <p className="text-[16px] font-medium">No cross-case analysis yet</p>
       <p className="mx-auto mt-2 max-w-md text-[14px] leading-relaxed text-muted-foreground">
         The graph is built from the connections the pipeline finds. Run the

@@ -60,7 +60,7 @@ export default async function CasePage({
         }
       />
 
-      <div className="flex-1 px-8 py-8">
+      <div className="flex-1 px-4 py-6 sm:px-8 sm:py-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
           <section className="rounded-xl border border-border bg-card p-8">
             <h2 className="text-[13px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">

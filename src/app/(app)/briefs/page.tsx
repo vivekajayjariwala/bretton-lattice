@@ -28,9 +28,9 @@ export default async function BriefsPage() {
         }
       />
 
-      <div className="flex-1 px-8 py-6">
+      <div className="flex-1 px-4 py-6 sm:px-8">
         {networks.length === 0 ? (
-          <div className="rounded-xl border border-border bg-card px-6 py-20 text-center">
+          <div className="rounded-xl border border-border bg-card px-5 py-16 text-center sm:px-6 sm:py-20">
             <p className="text-[16px] font-medium">No briefs yet</p>
             <p className="mx-auto mt-2 max-w-md text-[14px] leading-relaxed text-muted-foreground">
               Briefs are written when the analysis finds a network of two or
@@ -49,7 +49,7 @@ export default async function BriefsPage() {
               <li key={n.id}>
                 <Link
                   href={`/networks/${n.id}`}
-                  className="flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-ring"
+                  className="flex h-full flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-ring sm:p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <h2 className="text-[16px] font-semibold leading-snug">

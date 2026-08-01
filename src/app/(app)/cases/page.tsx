@@ -41,7 +41,7 @@ export default async function CasesPage() {
         }
       />
 
-      <div className="flex-1 px-8 py-6">
+      <div className="flex-1 px-4 py-6 sm:px-8">
         <div className="mb-4 flex items-center gap-3">
           <div className="relative w-full max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
