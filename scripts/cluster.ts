@@ -1,5 +1,5 @@
 /** Stage 3 standalone: cluster connected cases and write network briefs. */
-import "dotenv/config";
+import "./env";
 import { createWriteClient } from "../src/lib/supabase";
 import { runClustering } from "../src/lib/pipeline/cluster";
 

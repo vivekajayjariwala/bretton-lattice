@@ -5,7 +5,7 @@
  *
  *   npm run seed
  */
-import "dotenv/config";
+import "./env";
 import { createWriteClient } from "../src/lib/supabase";
 import { SEED_CASES } from "../src/lib/seed-cases";
 

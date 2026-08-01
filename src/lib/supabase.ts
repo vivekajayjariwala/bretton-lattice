@@ -1,6 +1,9 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
 
+// Note: supabase-js always constructs a realtime client, which needs a global
+// WebSocket. Node 22+ provides one; on Node 20 this throws at client creation.
+// See .nvmrc / package.json engines.
 export type Db = SupabaseClient<Database>;
 
 function required(name: string): string {

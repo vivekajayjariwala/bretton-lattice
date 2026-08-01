@@ -40,7 +40,9 @@ export function PageHeader({
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <div className="flex min-w-0 items-center gap-3">
           {icon}
-          <h1 className="truncate text-[30px] font-semibold leading-none tracking-[-0.02em]">
+          {/* Generated network names run long; wrap rather than truncate so the
+              headline stays readable. */}
+          <h1 className="min-w-0 text-[30px] font-semibold leading-tight tracking-[-0.02em] text-balance">
             {title}
           </h1>
           {pill}

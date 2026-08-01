@@ -1,5 +1,5 @@
 /** Stage 2 standalone: detect connections between extracted entities. */
-import "dotenv/config";
+import "./env";
 import { createWriteClient } from "../src/lib/supabase";
 import { runDetection } from "../src/lib/pipeline/detect";
 

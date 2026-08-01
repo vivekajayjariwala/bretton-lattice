@@ -1,5 +1,5 @@
 /** Runs the full pipeline: extract -> detect -> cluster. */
-import "dotenv/config";
+import "./env";
 import { createWriteClient } from "../src/lib/supabase";
 import { runPipeline } from "../src/lib/pipeline/run";
 

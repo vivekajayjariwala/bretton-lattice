@@ -59,13 +59,13 @@ export default async function CasesPage() {
             <table className="w-full min-w-[860px] border-collapse text-[14px]">
               <thead>
                 <tr className="border-b border-hairline text-left">
-                  <Th className="w-[300px]">Case</Th>
-                  <Th className="w-[90px]">Type</Th>
-                  <Th className="w-[130px]">Opened</Th>
-                  <Th className="w-[130px]">Closed</Th>
-                  <Th className="w-[190px]">Analyst</Th>
-                  <Th className="w-[140px]">Disposition</Th>
-                  <Th className="w-[110px]">Status</Th>
+                  <Th className="w-auto">Case</Th>
+                  <Th className="w-[80px]">Type</Th>
+                  <Th className="w-[125px]">Opened</Th>
+                  <Th className="w-[125px]">Closed</Th>
+                  <Th className="w-[180px]">Analyst</Th>
+                  <Th className="w-[130px]">Disposition</Th>
+                  <Th className="w-[105px]">Status</Th>
                 </tr>
               </thead>
               <tbody>
@@ -93,22 +93,22 @@ export default async function CasesPage() {
                         </span>
                       </Link>
                     </td>
-                    <td className="px-4 py-3.5 text-muted-foreground">
+                    <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">
                       {c.case_type}
                     </td>
-                    <td className="px-4 py-3.5 text-muted-foreground">
+                    <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">
                       {formatDate(c.opened_at)}
                     </td>
-                    <td className="px-4 py-3.5 text-muted-foreground">
+                    <td className="whitespace-nowrap px-4 py-3.5 text-muted-foreground">
                       {formatDate(c.closed_at)}
                     </td>
                     <td className="px-4 py-3.5">
                       <AssigneeChip name={c.assignee} />
                     </td>
-                    <td className="px-4 py-3.5">
+                    <td className="whitespace-nowrap px-4 py-3.5">
                       <ClearedBadge />
                     </td>
-                    <td className="px-4 py-3.5">
+                    <td className="whitespace-nowrap px-4 py-3.5">
                       <StatusPill>Closed</StatusPill>
                     </td>
                   </tr>

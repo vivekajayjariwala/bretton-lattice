@@ -52,6 +52,35 @@ type LinkDatum = {
   connection: EnrichedConnection;
 };
 
+/**
+ * A d3-style positioning force that eases each node toward its own target
+ * point. Written by hand rather than pulled from d3-force: react-force-graph
+ * already bundles its own copy of d3, and importing a second one breaks the
+ * client chunk.
+ */
+function anchorForce(
+  targetOf: (node: NodeDatum) => { x: number; y: number } | null,
+  strengthOf: (node: NodeDatum) => number,
+) {
+  let nodes: NodeDatum[] = [];
+
+  const force = (alpha: number) => {
+    for (const node of nodes) {
+      const target = targetOf(node);
+      if (!target) continue;
+      const k = strengthOf(node) * alpha;
+      if (k === 0) continue;
+      const n = node as NodeDatum & { vx: number; vy: number };
+      n.vx += (target.x - (node.x ?? 0)) * k;
+      n.vy += (target.y - (node.y ?? 0)) * k;
+    }
+  };
+  force.initialize = (n: NodeDatum[]) => {
+    nodes = n;
+  };
+  return force;
+}
+
 /** Cluster palette — matches --net-1..4 in globals.css. */
 const NETWORK_COLORS = ["#7c3aed", "#0e7a5f", "#c76a06", "#2563a8"];
 const ISOLATED_COLOR = "#c3c0b6";
@@ -66,6 +95,8 @@ export function NetworkGraph({
   networks: GraphNetwork[];
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const graphRef = useRef<any>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [selectedLink, setSelectedLink] = useState<EnrichedConnection | null>(
     null,
@@ -143,13 +174,28 @@ export function NetworkGraph({
       ctx.stroke();
 
       // Only label clustered nodes until zoomed in — the controls are noise.
-      if (clustered || scale > 1.6) {
-        const fontSize = Math.max(9, 11 / Math.max(scale, 1)) * Math.min(scale, 1.4);
+      // Dividing by scale keeps labels a constant size on screen at any zoom.
+      if (clustered || scale > 1.8) {
+        const fontSize = 11 / scale;
         ctx.font = `${clustered ? 600 : 400} ${fontSize}px Inter, sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
-        ctx.fillStyle = clustered ? "#171613" : "#75736b";
-        ctx.fillText(node.business_name, node.x!, node.y! + radius + 4);
+        ctx.fillStyle = clustered ? "#171613" : "#8a877e";
+
+        const label = node.business_name.replace(/ (LLC|Inc|Ltd|PLLC|PC|Co)$/, "");
+        // Knock the warm background out behind the text so labels stay legible
+        // where they overlap an edge.
+        const width = ctx.measureText(label).width;
+        ctx.fillStyle = "rgba(252, 251, 248, 0.82)";
+        ctx.fillRect(
+          node.x! - width / 2 - 2 / scale,
+          node.y! + radius + 3 / scale,
+          width + 4 / scale,
+          fontSize * 1.15,
+        );
+
+        ctx.fillStyle = clustered ? "#171613" : "#8a877e";
+        ctx.fillText(label, node.x!, node.y! + radius + 4 / scale);
       }
 
       ctx.globalAlpha = 1;
@@ -185,6 +231,61 @@ export function NetworkGraph({
     },
     [selectedLink, dimmed],
   );
+
+  // The default forces pull everything to one point, so 18 nodes land in an
+  // unreadable knot. Instead: anchor each network to its own slot around the
+  // centre, and push unconnected cases out to a surrounding ring. The layout is
+  // doing real explanatory work on this screen, so it is worth steering.
+  const networkCount = networks.length;
+  useEffect(() => {
+    const graph = graphRef.current;
+    if (!graph || size.width === 0) return;
+
+    const clusterRadius = Math.min(size.width, size.height) * 0.22;
+    const orbitRadius = Math.min(size.width, size.height) * 0.52;
+
+    const anchor = (node: NodeDatum) => {
+      if (node.networkIndex === null) return null;
+      // Spread clusters evenly, starting at the top.
+      const angle =
+        (node.networkIndex / Math.max(networkCount, 1)) * 2 * Math.PI -
+        Math.PI / 2;
+      return {
+        x: Math.cos(angle) * clusterRadius,
+        y: Math.sin(angle) * clusterRadius,
+      };
+    };
+
+    // Unconnected cases are parked evenly around a surrounding ring, so they
+    // read as context rather than competing with the clusters for attention.
+    const isolated = cases.filter((c) => c.networkIndex === null);
+    const orbitSlot = new Map(isolated.map((c, i) => [c.id, i]));
+
+    // Strong short-range repulsion plus a long link distance: within a cluster
+    // the nodes push far enough apart that their labels stop colliding, while
+    // distanceMax keeps that repulsion from throwing the clusters off screen.
+    graph.d3Force("charge")?.strength(-900).distanceMax(260);
+    graph.d3Force("link")?.distance(115).strength(0.75);
+    graph.d3Force("center", null);
+
+    graph.d3Force(
+      "anchor",
+      anchorForce(
+        (node) => {
+          if (node.networkIndex !== null) return anchor(node);
+          const slot = orbitSlot.get(node.id) ?? 0;
+          const angle = (slot / Math.max(isolated.length, 1)) * 2 * Math.PI;
+          return {
+            x: Math.cos(angle) * orbitRadius,
+            y: Math.sin(angle) * orbitRadius,
+          };
+        },
+        (node) => (node.networkIndex === null ? 0.09 : 0.3),
+      ),
+    );
+
+    graph.d3ReheatSimulation?.();
+  }, [size.width, size.height, networkCount, cases.length, connections.length]);
 
   const clusteredCount = cases.filter((c) => c.networkId !== null).length;
 
@@ -251,8 +352,10 @@ export function NetworkGraph({
                 setSelectedLink(null);
                 setHoveredNetwork(null);
               }}
-              cooldownTicks={120}
-              d3VelocityDecay={0.28}
+              ref={graphRef}
+              cooldownTicks={200}
+              d3VelocityDecay={0.3}
+              onEngineStop={() => graphRef.current?.zoomToFit(500, 70)}
             />
           )}
         </div>

@@ -1,5 +1,5 @@
 /** Stage 1 standalone: extract entities from every seeded case. */
-import "dotenv/config";
+import "./env";
 import { createWriteClient } from "../src/lib/supabase";
 import { runExtraction } from "../src/lib/pipeline/extract";
 
