@@ -17,7 +17,7 @@ export default async function AnalysisPage() {
       <PageHeader
         title="Run analysis"
         icon={
-          <span className="flex size-9 items-center justify-center rounded-lg bg-accent text-net-1">
+          <span className="flex size-9 items-center justify-center rounded-lg bg-brand-soft text-brand">
             <Sparkles className="size-5" strokeWidth={1.75} />
           </span>
         }

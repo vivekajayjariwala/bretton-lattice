@@ -15,7 +15,7 @@ export default async function BriefsPage() {
       <PageHeader
         title="Risk briefs"
         icon={
-          <span className="flex size-9 items-center justify-center rounded-lg bg-warn-soft text-warn">
+          <span className="flex size-9 items-center justify-center rounded-lg bg-brand-soft text-brand">
             <FileText className="size-5" strokeWidth={1.75} />
           </span>
         }

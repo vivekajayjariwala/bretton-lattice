@@ -45,7 +45,7 @@ export default async function BriefPage({
           { label: "Risk brief" },
         ]}
         icon={
-          <span className="flex size-9 items-center justify-center rounded-lg bg-warn-soft text-warn">
+          <span className="flex size-9 items-center justify-center rounded-lg bg-brand-soft text-brand">
             <FileText className="size-5" strokeWidth={1.75} />
           </span>
         }

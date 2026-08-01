@@ -46,7 +46,7 @@ export default async function NetworksPage() {
       <PageHeader
         title="Networks"
         icon={
-          <span className="flex size-9 items-center justify-center rounded-lg bg-accent text-net-1">
+          <span className="flex size-9 items-center justify-center rounded-lg bg-brand-soft text-brand">
             <Share2 className="size-5" strokeWidth={1.75} />
           </span>
         }
